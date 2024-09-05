@@ -2,11 +2,11 @@ package me.Fjc.PigOffhandBlocker;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PluginStartup extends JavaPlugin {
+public class PigOffhandBlocker extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(new PigOffhandBlocker(), this);
+        getServer().getPluginManager().registerEvents(new InvListener(), this);
         getLogger().info("Fj's plugin PigOffhandBlocker has been enabled!");
         //When the plugin is enabled, these methods are called
     }
