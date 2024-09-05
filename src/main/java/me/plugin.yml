@@ -1,4 +1,5 @@
 name: PigOffhandBlocker
 version: 1.0
+author: Fjc
 main: me.Fjc.PigOffhandBlocker.PigOffhandBlocker
 api-version: 1.20
