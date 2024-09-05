@@ -9,7 +9,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 
-public class PigOffhandBlocker implements Listener {
+public class InvListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
