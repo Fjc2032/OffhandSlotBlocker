@@ -8,6 +8,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
+import me.Fjc.PIgOffhandBlocker.PigOffhandBlocker
+
 
 public class InvListener implements Listener {
 
