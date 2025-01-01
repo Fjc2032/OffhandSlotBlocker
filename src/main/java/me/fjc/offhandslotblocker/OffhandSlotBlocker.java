@@ -1,33 +1,31 @@
 package me.fjc.offhandslotblocker;
 
+import me.fjc.offhandslotblocker.listener.InvListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 
 
-public class OffhandSlotBlocker extends JavaPlugin implements Listener {
+public class OffhandSlotBlocker extends JavaPlugin {
 
     public void onEnable() {
+        getServer().getPluginManager().registerEvents(new InvListener(), this);
         if (getServer().getPluginManager().isPluginEnabled("MythicMobs")) {
             Bukkit.getLogger().info("Found MythicMobs!");
-            getServer().getPluginManager().registerEvents(this, this);
 
         } else {
             Bukkit.getLogger().warning("Could not find MythicMobs! That could be a problem");
             Bukkit.getLogger().warning("Registering events anyway.");
-            getServer().getPluginManager().registerEvents(this, this);
         }
         getLogger().info("Loading configuration..");
         createConfig();
         getLogger().info("Success.");
 
-        getServer().getPluginManager().registerEvents(new InvListener(), this);
         Bukkit.getLogger().info("Everything has loaded, probably.");
     }
     public void onDisable() {

@@ -1,56 +1,50 @@
-package me.fjc.offhandslotblocker;
+package me.fjc.offhandslotblocker.listener;
 
-import io.lumine.mythic.bukkit.MythicBukkit;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
 
-public class InvListener extends OffhandSlotBlocker implements Listener {
+public class InvListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onClickCraftInv(InventoryClickEvent event) {
-        if (!event.getInventory().getType().equals(InventoryType.CRAFTING) && event.getRawSlot() == 45) {
-            return;
-        } else {
-            Player player = (Player) event.getWhoClicked();
-            ItemStack target = event.getCurrentItem();
-
-            //Checks if the current item is a pig spawn egg and if the target is a player
-            if (target != null && target.getType() == (Material.PIG_SPAWN_EGG) && event.getWhoClicked().equals(player)) {
-                event.setCancelled(true);
-                player.sendMessage("Don't put this into your offhand!");
-            }
-
-
-        }
-
-    }
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onClickPlayerInv(InventoryClickEvent event) {
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
 
         Player player = (Player) event.getWhoClicked();
-        ItemStack target = event.getCurrentItem();
+        ItemStack target = event.getCursor();
+        InventoryType type = event.getInventory().getType();
 
-        if (target != null && target.getType() == (Material.PIG_SPAWN_EGG) && event.getWhoClicked().equals(player)) {
+        if (target != null && target.getType() == Material.PIG_SPAWN_EGG && event.getWhoClicked().equals(player) && type == InventoryType.CRAFTING) {
             if (event.getSlot() == 40) {
                 event.setCancelled(true);
-                player.sendMessage("Don't put this into your offhand!");
+                player.sendMessage("You are not allowed to put this into your offhand.");
             }
-
+        }
+        if (target != null && target.getType() == Material.PIG_SPAWN_EGG && event.getWhoClicked().equals(player) && type == InventoryType.PLAYER) {
+            if (event.getSlot() == 40) {
+                event.setCancelled(true);
+                player.sendMessage("You are not allowed to put this into your offhand.");
+            }
         }
     }
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onSwap(PlayerSwapHandItemsEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getOffHandItem();
+
+        if (item.getType() == Material.PIG_SPAWN_EGG && item != null) {
+            event.setCancelled(true);
+            player.sendMessage("Good try! You cannot put this item here.");
+        }
+    }
+}
     /*
     @EventHandler(priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent event, InventoryInteractEvent interactEvent) {
@@ -79,4 +73,4 @@ public class InvListener extends OffhandSlotBlocker implements Listener {
 
 
 
-}
+
